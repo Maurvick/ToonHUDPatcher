@@ -18,17 +18,14 @@ namespace HUDpatcher
             var filePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
             var fileText = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res").ToList();
 
-            if (fileText.Contains(filePath, StringComparer.OrdinalIgnoreCase))
+            try
             {
-                try
-                {
-                    fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
-                    File.WriteAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res", fileText);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Can't edit targeted file. Try to close all applications and run script again.");
-                }
+                fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
+                File.WriteAllLines(filePath, fileText);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Can't edit targeted file. Try to close all applications and run script again.");
             }
 
             Console.WriteLine("Fixed control points not working on sv_pure 1 servers.");
