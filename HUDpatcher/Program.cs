@@ -1,72 +1,105 @@
-﻿using System.Text;
-
-namespace HUDpatcher
+﻿namespace HUDpatcher
 {
     internal class Program
     {
         static void Main()
         {
             Console.Title = "HUDpatcher";
-
-            FixControlPointIcon();
-            //FixFPSLoss();
-            //FixConsoleError();
-        }
-
-        static void FixControlPointIcon()
-        {
-            var filePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
-            var fileText = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res").ToList();
-
+            // Fix CP icons doesn't work on sv_pure servers
             try
             {
-                fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
-                File.WriteAllLines(filePath, fileText);
+                CreateReferenceToPreload();
+                MoveFilesFromSprites();
+                CreateControlPointIcons();
+                CreateExtrasFolder();
             }
-            catch (Exception)
+            catch (DirectoryNotFoundException exception)
             {
-                Console.WriteLine("Can't edit targeted file. Try to close all applications and run script again.");
+                Console.WriteLine(exception.Message);
             }
 
-            Console.WriteLine("Fixed control points not working on sv_pure 1 servers.");
+            Console.WriteLine("CP icons should work on valve servers.");
+
+            // Keep console window open in debug mode.
+            Console.Write("\nPress any key to exit: ");
+            Console.ReadKey();
         }
 
-        static void FixFPSLoss()
+        static void CreateReferenceToPreload()
         {
-            StringBuilder newFile = new StringBuilder();
-
-            string[] file = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\hudmatchstatus.res");
-
-            foreach (string line in file)
+            // Add specific line into file 
+            string filePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
+            var fileText = File.ReadAllLines(filePath).ToList();
+            
+            // Check if line already exists
+            if (!fileText.Any(line => line.Equals("#base \"../../resource/extras/preload.res\"")))
             {
-                if (line.Contains("\"HealthIcon\"\r\n\t\t\t{\r\n\t\t\t\t\"ControlName\"\t\t\"EditablePanel\"\r\n\t\t\t\t\"fieldName\"\t\t\t\"HealthIcon\"\r\n\t\t\t\t\"xpos\"\t\t\t\t\"22\"\r\n\t\t\t\t\"ypos\"\t\t\t\t\"-3\"\r\n\t\t\t\t\"zpos\"\t\t\t\t\"3\"\r\n\t\t\t\t\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"1\"\t\r\n\t\t\t\t\"HealthBonusPosAdj\"\t\"10\"\r\n\t\t\t\t\"HealthDeathWarning\"\t\t\"0.49\"\r\n\t\t\t\t\"TFFont\"\t\t\t\t\t\"HudFontSmallest\"\r\n\t\t\t\t\"HealthDeathWarningColor\"\t\"HUDDeathWarning\"\r\n\t\t\t\t\"TextColor\"\t\t\t\t\t\"HudOffWhite\"\r\n\t\t\t}"))
+                // Try catch possible exception of file can be used in other process
+                try
                 {
-                    string temp = line.Replace("\"enabled\"\t\t\t\t\"1\"", "lol");
-
-                    newFile.Append(temp + "\r\n");
-
-                    continue;
+                    fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
+                    File.WriteAllLines(filePath, fileText);
+                    Console.WriteLine("Created #base in mainmenuoverride.res");
                 }
-                newFile.Append(line + "\r\n");
+                catch (FileLoadException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
             }
-
-            File.WriteAllText(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\hudmatchstatus.res", newFile.ToString());
-
-            Console.WriteLine("Fixed matchstatus fps loss.");
+            else
+            {
+                Console.WriteLine("Created #base in mainmenuoverride.res");
+            }     
         }
 
-        static void FixConsoleError()
+        static void MoveFilesFromSprites()
         {
-            string fileName = "huditemeffectmeter_action.res";
-            string sourcePath = @"C:\Users\Andrew\source\repos\HUDpatcher\HUDpatcher\ToonHUD\resource\ui\";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\";
+            // Copy files of targeted folder
+            string sourceFile = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
+            string destinationFile = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
 
-            string sourceFile = Path.Combine(sourcePath, fileName);
-            string destFile = Path.Combine(targetPath, fileName);
+            // Move files to targeted folder, if exists pass
+            if (Directory.Exists(destinationFile))
+            {    
+                Console.WriteLine("Moved files from sprites/obj_icons to temp.");
+            }
+            else
+            {
+                Directory.Move(sourceFile, destinationFile);
+                Console.WriteLine("Moved files from sprites/obj_icons.");
+            }
+        }
 
-            File.Copy(sourceFile, destFile, true);
+        static void CreateControlPointIcons()
+        {
+            // Copy files of targeted folder
+            string sourcePath = @"..\..\..\ToonHUD\materials\sprites\obj_icons";
+            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
 
-            Console.WriteLine("Fixed HudItemEffectMeter_Action console error.");
+            // Use Path class to manipulate file and directory paths.
+            string sourceFile = Path.Combine(sourcePath);
+            string destFile = Path.Combine(targetPath);
+
+            // To copy a folder's contents to a new location:
+            // Create a new target folder.
+            // If the directory already exists, this method does not create a new directory.
+            Directory.CreateDirectory(targetPath);
+        }
+
+        static void CreateExtrasFolder()
+        {
+            // Copy files of targeted folder
+            string sourcePath = @"..\..\..\ToonHUD\resource\extras\";
+            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\extras\";
+
+            // Use Path class to manipulate file and directory paths.
+            string sourceFile = Path.Combine(sourcePath);
+            string destFile = Path.Combine(targetPath);
+
+            // To copy a folder's contents to a new location:
+            // Create a new target folder.
+            // If the directory already exists, this method does not create a new directory.
+            Directory.CreateDirectory(targetPath);
         }
     }
 }
