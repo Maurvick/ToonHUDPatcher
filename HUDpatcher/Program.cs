@@ -5,11 +5,12 @@
         static void Main()
         {
             Console.Title = "HUDpatcher";
-            // Fix CP icons doesn't work on sv_pure servers
+            
+            // Catch exception if unable to find path to folder
             try
             {
-                CreateReferenceToPreload();
                 MoveFilesFromSprites();
+                CreateReferenceToPreload();
                 CreateControlPointIcons();
                 CreateExtrasFolder();
             }
@@ -18,16 +19,12 @@
                 Console.WriteLine(exception.Message);
             }
 
-            Console.WriteLine("CP icons should work on valve servers.");
-
-            // Keep console window open in debug mode.
-            Console.Write("\nPress any key to exit: ");
+            Console.Write("Press any key to exit...");
             Console.ReadKey();
         }
 
         static void CreateReferenceToPreload()
         {
-            // Add specific line into file 
             string filePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
             var fileText = File.ReadAllLines(filePath).ToList();
             
@@ -39,7 +36,7 @@
                 {
                     fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
                     File.WriteAllLines(filePath, fileText);
-                    Console.WriteLine("Created #base in mainmenuoverride.res");
+                    Console.WriteLine("*Created #base in mainmenuoverride.res");
                 }
                 catch (FileLoadException exception)
                 {
@@ -48,31 +45,62 @@
             }
             else
             {
-                Console.WriteLine("Created #base in mainmenuoverride.res");
+                Console.WriteLine("*Created #base in mainmenuoverride.res");
             }     
         }
 
         static void MoveFilesFromSprites()
         {
-            // Copy files of targeted folder
-            string sourceFile = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
-            string destinationFile = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
+            string sourcePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
+            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
+
+            string fileName1 = "button";
 
             // Move files to targeted folder, if exists pass
-            if (Directory.Exists(destinationFile))
+            if (Directory.Exists(targetPath))
             {    
-                Console.WriteLine("Moved files from sprites/obj_icons to temp.");
+                Console.WriteLine("*Moved files from sprites/obj_icons to temp.");
             }
             else
             {
-                Directory.Move(sourceFile, destinationFile);
-                Console.WriteLine("Moved files from sprites/obj_icons.");
+                Directory.Move(sourcePath, targetPath);
+                Console.WriteLine("*Moved files from sprites/obj_icons.");
+            }
+
+            sourcePath = @"..\..\..\ToonHUD\materials\temp";
+            targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
+
+            string sourceFile = Path.Combine(sourcePath);
+            string destFile = Path.Combine(targetPath);
+
+            // To copy a folder's contents to a new location:
+            // Create a new target folder.
+            // If the directory already exists, this method does not create a new directory.
+            Directory.CreateDirectory(targetPath);
+
+            if (Directory.Exists(sourcePath))
+            {
+                string[] files = Directory.GetFiles(sourcePath);
+
+                // Copy the files and overwrite destination files if they already exist.
+                foreach (string s in files)
+                {
+                    // Use static Path methods to extract only the file name from the path.
+                    fileName1 = Path.GetFileName(s);
+                    destFile = Path.Combine(targetPath, fileName1);
+                    File.Copy(s, destFile, true);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Source path does not exist!");
             }
         }
 
         static void CreateControlPointIcons()
         {
-            // Copy files of targeted folder
+            string fileName = "icon_obj";
+
             string sourcePath = @"..\..\..\ToonHUD\materials\sprites\obj_icons";
             string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
 
@@ -80,26 +108,54 @@
             string sourceFile = Path.Combine(sourcePath);
             string destFile = Path.Combine(targetPath);
 
-            // To copy a folder's contents to a new location:
-            // Create a new target folder.
-            // If the directory already exists, this method does not create a new directory.
             Directory.CreateDirectory(targetPath);
+            Console.WriteLine("*Created control point icons.");
+
+            if (Directory.Exists(sourcePath))
+            {
+                string[] files = Directory.GetFiles(sourcePath);
+
+                foreach (string s in files)
+                {
+                    fileName = Path.GetFileName(s);
+                    destFile = Path.Combine(targetPath, fileName);
+                    File.Copy(s, destFile, true);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Source path does not exist!");
+            }
+
         }
 
         static void CreateExtrasFolder()
         {
-            // Copy files of targeted folder
+            string fileName = "preload";
             string sourcePath = @"..\..\..\ToonHUD\resource\extras\";
             string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\extras\";
 
-            // Use Path class to manipulate file and directory paths.
             string sourceFile = Path.Combine(sourcePath);
             string destFile = Path.Combine(targetPath);
 
-            // To copy a folder's contents to a new location:
-            // Create a new target folder.
-            // If the directory already exists, this method does not create a new directory.
             Directory.CreateDirectory(targetPath);
+            Console.WriteLine("*Created Extras Folder");
+
+            if (Directory.Exists(sourcePath))
+            {
+                string[] files = Directory.GetFiles(sourcePath);
+
+                foreach (string s in files)
+                {
+                    fileName = Path.GetFileName(s);
+                    destFile = Path.Combine(targetPath, fileName);
+                    File.Copy(s, destFile, true); 
+                }
+            }
+            else
+            {
+                Console.WriteLine("Source path does not exist!");
+            }
         }
     }
 }
