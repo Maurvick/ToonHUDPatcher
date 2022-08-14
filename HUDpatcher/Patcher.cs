@@ -201,5 +201,69 @@ namespace HUDpatcher
 
             Console.WriteLine("Fixed contracker icon bug.");
         }
+
+        public void FixConsoleErrors()
+        {
+            string fileName = "huditemeffectmeter_action.res";
+            string sourcePath = @"..\..\..\ToonHUD\resource\ui";
+            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui";
+
+            string sourceFile = Path.Combine(sourcePath, fileName);
+            string destFile = Path.Combine(targetPath, fileName);
+
+            File.Copy(sourceFile, destFile, true);
+
+            Console.WriteLine("Fixed HudItemEffectMeter_Action console error.");
+
+           fileName = "menu_thumb_Missing.vmt";
+           sourcePath = @"..\..\..\ToonHUD\materials\vgui\maps";
+           targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\vgui\maps";
+
+            sourceFile = Path.Combine(sourcePath);
+            destFile = Path.Combine(targetPath);
+
+            Directory.CreateDirectory(targetPath);
+
+            if (Directory.Exists(sourcePath))
+            {
+                string[] files = Directory.GetFiles(sourcePath);
+
+                foreach (string s in files)
+                {
+                    fileName = Path.GetFileName(s);
+                    destFile = Path.Combine(targetPath, fileName);
+                    File.Copy(s, destFile, true);
+                }
+                Console.WriteLine("Fixed missing vgui material error.");
+            }
+            else
+            {
+                Console.WriteLine("Source path does not exist!");
+            }
+        }
+
+        public void FixMatchHudFPSLoss()
+        {
+            StringBuilder newFile = new StringBuilder();
+
+            var file = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\hudmatchstatus.res").ToList();
+
+            foreach (string line in file)
+            {
+                if (line.Contains("\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"1\""))
+                {
+                   string temp = line.Replace("\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"1\"", "\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"0\"");
+
+                   newFile.Append(temp + "\r\n");
+
+                   continue;
+                }
+                newFile.Append(line + "\r\n");
+            }
+
+            File.WriteAllText(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\hudmatchstatus.res", newFile.ToString());
+
+            Console.WriteLine("Fixed matchstatus fps loss.");
+        }
     }
 }

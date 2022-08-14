@@ -1,6 +1,6 @@
 **This is simple C# script that fixes console errors and sv_pure 1 bugs for ToonHUD.**
 
-To run this script you need download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps)
+To run this script you need to download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps)
 
 Used code:
 
