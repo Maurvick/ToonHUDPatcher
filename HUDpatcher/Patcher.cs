@@ -180,31 +180,15 @@ namespace HUDpatcher
         {
             StringBuilder newFile = new StringBuilder();
 
-            string lines = "\"QuestLogButton\"\r\n\t{\r\n\t\t\"ControlName\"\t\"EditablePanel\"\r\n\t\t\"fieldName\"\t\t\"QuestLogButton\"\r\n\t\t\"xpos\"\t\t\t\"26\"\r\n\t\t\"ypos\"\t\t\t\"0\"\r\n\t\t\"zpos\"\t\t\t\"1\"\r\n\t\t\"wide\"\t\t\t\"26\"\r\n\t\t\"tall\"\t\t\t\"26\"\r\n\t\t\"autoResize\"\t\"0\"\r\n\t\t\"pinCorner\"\t\t\"3\"\r\n\t\t\"visible\"\t\t\"1\"\r\n\t\t\"enabled\"\t\t\"1\"\r\n\t\t\"tabPosition\"\t\"0\"\r\n\t\t\r\n\t\t\"pin_to_sibling\"\t\t\t\"WatchStreamButton\"\r\n\t\t\"pin_corner_to_sibling\"\t\t\"0\"\r\n\t\t\"pin_to_sibling_corner\"\t\t\"1\"\r\n\t\t\r\n\t\t\"navUp\"\t\t\t\"Notifications_Panel\"\r\n\t\t\"navLeft\"\t\t\"MOTD_ShowButtonPanel_SB\"\r\n\t\t\"navToRelay\"\t\"SubButton\"";
-            string linesChange = "\"QuestLogButton\"\r\n\t{\r\n\t\t\"ControlName\"\t\"EditablePanel\"\r\n\t\t\"fieldName\"\t\t\"QuestLogButton\"\r\n\t\t\"xpos\"\t\t\t\"0\"\r\n\t\t\"ypos\"\t\t\t\"0\"\r\n\t\t\"zpos\"\t\t\t\"1\"\r\n\t\t\"wide\"\t\t\t\"26\"\r\n\t\t\"tall\"\t\t\t\"26\"\r\n\t\t\"autoResize\"\t\"0\"\r\n\t\t\"pinCorner\"\t\t\"3\"\r\n\t\t\"visible\"\t\t\"1\"\r\n\t\t\"enabled\"\t\t\"1\"\r\n\t\t\"tabPosition\"\t\"0\"\r\n\t\t\r\n\t\t\"pin_to_sibling\"\t\t\t\"WatchStreamButton\"\r\n\t\t\"pin_corner_to_sibling\"\t\t\"0\"\r\n\t\t\"pin_to_sibling_corner\"\t\t\"1\"\r\n\t\t\r\n\t\t\"navUp\"\t\t\t\"Notifications_Panel\"\r\n\t\t\"navLeft\"\t\t\"MOTD_ShowButtonPanel_SB\"\r\n\t\t\"navToRelay\"\t\"SubButton\"";
+            string temp = "";
+
             string[] file = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res");
 
             foreach (string line in file)
             {
-                if (line.Contains(lines))
+                if (line.Contains("button_quests_pda"))
                 {
-                    string temp = line.Replace(lines, linesChange);
-
-                    newFile.Append(temp + "\r\n");
-
-                    continue;
-                }
-                newFile.Append(line + "\r\n");
-            }
-
-            lines = "\"SubImage\"\r\n\t\t\t{\r\n\t\t\t\t\"ControlName\"\t\"ImagePanel\"\r\n\t\t\t\t\"fieldName\"\t\t\"SubImage\"\r\n\t\t\t\t\"xpos\"\t\t\t\"cs-0.5\"\r\n\t\t\t\t\"ypos\"\t\t\t\"cs-0.5\"\r\n\t\t\t\t\"zpos\"\t\t\t\"1\"\r\n\t\t\t\t\"wide\"\t\t\t\"f0\"\r\n\t\t\t\t\"tall\"\t\t\t\"f0\"\r\n\t\t\t\t\"visible\"\t\t\"1\"\r\n\t\t\t\t\"enabled\"\t\t\"1\"\r\n\t\t\t\t\"scaleImage\"\t\"1\"\r\n\t\t\t\t\"image\"\t\t\t\"button_quests_pda\"\r\n\r\n\t\t\t\t\"proportionaltoparent\"\t\"1\"\r\n\t\t\t\t\"mouseinputenabled\"\t\"0\"\r\n\t\t\t\t\"keyboardinputenabled\" \"0\"\r\n\t\t\t}";
-            linesChange = "\"SubImage\"\r\n\t\t\t{\r\n\t\t\t\t\"ControlName\"\t\"ImagePanel\"\r\n\t\t\t\t\"fieldName\"\t\t\"SubImage\"\r\n\t\t\t\t\"xpos\"\t\t\t\"cs-0.5\"\r\n\t\t\t\t\"ypos\"\t\t\t\"cs-0.5\"\r\n\t\t\t\t\"zpos\"\t\t\t\"1\"\r\n\t\t\t\t\"wide\"\t\t\t\"f0\"\r\n\t\t\t\t\"tall\"\t\t\t\"f0\"\r\n\t\t\t\t\"visible\"\t\t\"1\"\r\n\t\t\t\t\"enabled\"\t\t\"1\"\r\n\t\t\t\t\"scaleImage\"\t\"1\"\r\n\t\t\t\t\"image\"\t\t\t\"../../materials/temp/button_quests_pda\"\r\n\r\n\t\t\t\t\"proportionaltoparent\"\t\"1\"\r\n\t\t\t\t\"mouseinputenabled\"\t\"0\"\r\n\t\t\t\t\"keyboardinputenabled\" \"0\"\r\n\t\t\t}";
-
-            foreach (string line in file)
-            {
-                if (line.Contains(lines))
-                {
-                    string temp = line.Replace(lines, linesChange);
+                    temp = line.Replace("button_quests_pda", "../../materials/temp/button_quests_pda");
 
                     newFile.Append(temp + "\r\n");
 
