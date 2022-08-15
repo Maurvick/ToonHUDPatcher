@@ -6,24 +6,17 @@ namespace HUDpatcher
     {
         public void CreateReferenceToPreload()
         {
-            string filePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
-            var fileText = File.ReadAllLines(filePath).ToList();
+            string sourcePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
+            var fileText = File.ReadAllLines(sourcePath).ToList();
 
             // Check if line already exists.
             if (!fileText.Any(line => line.Equals("#base \"../../resource/extras/preload.res\"")))
             {
-                // Try catch possible exception of file can be used in other process.
-                try
-                {
-                    fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
-                    File.WriteAllLines(filePath, fileText);
-                    Console.WriteLine("Created #base in mainmenuoverride.res");
-                }
-                catch (FileLoadException exception)
-                {
-                    Console.WriteLine(exception.Message);
-                }
+                fileText.Insert(0, "#base \"../../resource/extras/preload.res\"");
+                File.WriteAllLines(sourcePath, fileText);
+                Console.WriteLine("Created #base in mainmenuoverride.res");
             }
+            // If exists, ignore.
             else
             {
                 Console.WriteLine("Created #base in mainmenuoverride.res");
@@ -50,9 +43,12 @@ namespace HUDpatcher
         public void CopyFilesFromTemp()
         {
             string fileName1 = "button";
-            string sourcePath = @"..\..\..\ToonHUD\materials\temp";
+            string baseDir = @"C:\Users\Andrew\source\repos\HUDpatcher\HUDpatcher\ToonHUD\materials\temp";
+            string dirFragment = @"C:\Users\Andrew\source\repos\HUDpatcher\HUDpatcher\ToonHUD\materials\temp";
             string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
-
+            
+            string sourcePath = Path.Combine(baseDir, dirFragment); 
+            
             // Use Path class to manipulate file and directory paths.
             string sourceFile = Path.Combine(sourcePath);
             string destFile = Path.Combine(targetPath);
@@ -186,15 +182,22 @@ namespace HUDpatcher
 
             foreach (string line in file)
             {
-                if (line.Contains("button_quests_pda"))
+                if (line.Contains("../../materials/temp/button_quests_pda"))
                 {
-                    temp = line.Replace("button_quests_pda", "../../materials/temp/button_quests_pda");
-
-                    newFile.Append(temp + "\r\n");
-
-                    continue;
+                    newFile.Append(line + "\r\n");
                 }
-                newFile.Append(line + "\r\n");
+                else 
+                {
+                    if (line.Contains("button_quests_pda"))
+                    {
+                        temp = line.Replace("button_quests_pda", "../../materials/temp/button_quests_pda");
+
+                        newFile.Append(temp + "\r\n");
+
+                        continue;
+                    }
+                    newFile.Append(line + "\r\n");
+                }
             }
 
             File.WriteAllText(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res", newFile.ToString());

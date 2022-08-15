@@ -20,14 +20,12 @@
                 patcher.FixConsoleErrors();
                 patcher.FixMatchHudFPSLoss();
             }
-            catch (DirectoryNotFoundException exception)
+            catch (IOException exception)
             {
                 Console.WriteLine(exception.Message);
-                Console.WriteLine("Task failed successfully.");
             }
 
-            // Keep console window open
-            Console.Write("Press any key to exit...");
+            Console.WriteLine("Task completed. It's safe to close console window now.");
             Console.ReadKey();
         }
     }
