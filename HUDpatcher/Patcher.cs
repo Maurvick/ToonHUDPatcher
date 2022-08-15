@@ -250,9 +250,9 @@ namespace HUDpatcher
 
             foreach (string line in file)
             {
-                if (line.Contains("\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"1\""))
+                if (line.Contains("\"enabled\"\t\t\t\"1\""))
                 {
-                   string temp = line.Replace("\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"1\"", "\"wide\"\t\t\t\t\"32\"\r\n\t\t\t\t\"tall\"\t\t\t\t\"32\"\r\n\t\t\t\t\"visible\"\t\t\t\"0\"\r\n\t\t\t\t\"enabled\"\t\t\t\"0\"");
+                   string temp = line.Replace("\"enabled\"\t\t\t\"1\"", "\"enabled\"\t\t\t\"0\"");
 
                    newFile.Append(temp + "\r\n");
 

@@ -18,7 +18,7 @@
                 patcher.CopyReplayBrowser();
                 patcher.EditMainMenuOverrideForContracker();
                 patcher.FixConsoleErrors();
-                // patcher.FixMatchHudFPSLoss();
+                patcher.FixMatchHudFPSLoss();
             }
             catch (DirectoryNotFoundException exception)
             {
