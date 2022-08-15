@@ -6,7 +6,7 @@ namespace HUDpatcher
     {
         public void CreateReferenceToPreload()
         {
-            string sourcePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res";
+            string sourcePath = @"toonhud\resource\ui\mainmenuoverride.res";
             var fileText = File.ReadAllLines(sourcePath).ToList();
 
             // Check if line already exists.
@@ -25,8 +25,8 @@ namespace HUDpatcher
 
         public void MoveFilesFromSprites()
         {
-            string sourcePath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
+            string sourcePath = @"toonhud\materials\sprites\obj_icons";
+            string targetPath = @"toonhud\materials\temp";
 
             // Move files to targeted folder. Pass if already exists.
             if (Directory.Exists(targetPath))
@@ -43,11 +43,13 @@ namespace HUDpatcher
         public void CopyFilesFromTemp()
         {
             string fileName1 = "button";
-            string baseDir = @"C:\Users\Andrew\source\repos\HUDpatcher\HUDpatcher\ToonHUD\materials\temp";
-            string dirFragment = @"C:\Users\Andrew\source\repos\HUDpatcher\HUDpatcher\ToonHUD\materials\temp";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\temp";
+            //string baseDir = @"C:\Users\source\repos\HUDpatcher\HUDpatcher\ToonHUD\materials\temp";
+            //string dirFragment = @"..\..\..\..\..\..\ToonHUD\materials\temp";
+            //string sourcePath = Path.Combine(baseDir, dirFragment); 
+            string sourcePath = @"Hud files\ToonHUD\materials\temp";
+            string targetPath = @"toonhud\materials\temp";
             
-            string sourcePath = Path.Combine(baseDir, dirFragment); 
+            
             
             // Use Path class to manipulate file and directory paths.
             string sourceFile = Path.Combine(sourcePath);
@@ -81,8 +83,9 @@ namespace HUDpatcher
         public void CreateControlPointIcons()
         {
             string fileName = "icon_obj";
-            string sourcePath = @"..\..\..\ToonHUD\materials\sprites\obj_icons";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\sprites\obj_icons";
+            //string sourcePath = @"..\..\..\ToonHUD\materials\sprites\obj_icons";
+            string sourcePath = @"Hud files\ToonHUD\materials\sprites\obj_icons";
+            string targetPath = @"toonhud\materials\sprites\obj_icons";
 
             string sourceFile = Path.Combine(sourcePath);
             string destFile = Path.Combine(targetPath);
@@ -111,8 +114,9 @@ namespace HUDpatcher
         public void CreateExtrasFolder()
         {
             string fileName = "preload";
-            string sourcePath = @"..\..\..\ToonHUD\resource\extras\";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\extras\";
+            //string sourcePath = @"..\..\..\ToonHUD\resource\extras\";
+            string sourcePath = @"Hud files\ToonHUD\resource\extras\";
+            string targetPath = @"toonhud\resource\extras\";
 
             string sourceFile = Path.Combine(sourcePath);
             string destFile = Path.Combine(targetPath);
@@ -140,8 +144,9 @@ namespace HUDpatcher
         public void CopyReplayBrowser()
         {
             string fileName1 = "button";
-            string sourcePath = @"..\..\..\ToonHUD\resource\ui\replaybrowser";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\replaybrowser";
+            //string sourcePath = @"..\..\..\ToonHUD\resource\ui\replaybrowser";
+            string sourcePath = @"Hud files\ToonHUD\resource\ui\replaybrowser";
+            string targetPath = @"toonhud\resource\ui\replaybrowser";
 
             // Use Path class to manipulate file and directory paths.
             string sourceFile = Path.Combine(sourcePath);
@@ -176,9 +181,7 @@ namespace HUDpatcher
         {
             StringBuilder newFile = new StringBuilder();
 
-            string temp = "";
-
-            string[] file = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res");
+            string[] file = File.ReadAllLines(@"toonhud\resource\ui\mainmenuoverride.res");
 
             foreach (string line in file)
             {
@@ -190,7 +193,7 @@ namespace HUDpatcher
                 {
                     if (line.Contains("button_quests_pda"))
                     {
-                        temp = line.Replace("button_quests_pda", "../../materials/temp/button_quests_pda");
+                        string temp = line.Replace("button_quests_pda", "../../materials/temp/button_quests_pda");
 
                         newFile.Append(temp + "\r\n");
 
@@ -200,7 +203,7 @@ namespace HUDpatcher
                 }
             }
 
-            File.WriteAllText(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\mainmenuoverride.res", newFile.ToString());
+            File.WriteAllText(@"toonhud\resource\ui\mainmenuoverride.res", newFile.ToString());
 
             Console.WriteLine("Fixed contracker icon bug.");
         }
@@ -208,8 +211,9 @@ namespace HUDpatcher
         public void FixConsoleErrors()
         {
             string fileName = "huditemeffectmeter_action.res";
-            string sourcePath = @"..\..\..\ToonHUD\resource\ui";
-            string targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui";
+            //string sourcePath = @"..\..\..\ToonHUD\resource\ui";
+            string sourcePath = @"Hud files\ToonHUD\resource\ui";
+            string targetPath = @"toonhud\resource\ui";
 
             string sourceFile = Path.Combine(sourcePath, fileName);
             string destFile = Path.Combine(targetPath, fileName);
@@ -218,9 +222,10 @@ namespace HUDpatcher
 
             Console.WriteLine("Fixed HudItemEffectMeter_Action console error.");
 
-           fileName = "menu_thumb_Missing.vmt";
-           sourcePath = @"..\..\..\ToonHUD\materials\vgui\maps";
-           targetPath = @"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\materials\vgui\maps";
+            fileName = "menu_thumb_Missing.vmt";
+            //sourcePath = @"..\..\..\ToonHUD\materials\vgui\maps";
+            sourcePath = @"Hud files\ToonHUD\materials\vgui\maps";
+            targetPath = @"toonhud\materials\vgui\maps";
 
             sourceFile = Path.Combine(sourcePath);
             destFile = Path.Combine(targetPath);
@@ -249,7 +254,7 @@ namespace HUDpatcher
         {
             StringBuilder newFile = new StringBuilder();
 
-            var file = File.ReadAllLines(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\hudmatchstatus.res").ToList();
+            var file = File.ReadAllLines(@"toonhud\resource\ui\hudmatchstatus.res").ToList();
 
             foreach (string line in file)
             {
@@ -264,7 +269,7 @@ namespace HUDpatcher
                 newFile.Append(line + "\r\n");
             }
 
-            File.WriteAllText(@"D:\SteamLibrary\steamapps\common\Team Fortress 2\tf\custom\toonhud\resource\ui\hudmatchstatus.res", newFile.ToString());
+            File.WriteAllText(@"toonhud\resource\ui\hudmatchstatus.res", newFile.ToString());
 
             Console.WriteLine("Fixed matchstatus fps loss.");
         }
