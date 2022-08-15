@@ -5,27 +5,30 @@
         static void Main()
         {
             Console.Title = "HUDpatcher";
-            Patcher patcher = new Patcher();
             
             // Catch exception if unable to find path to folder
             try
             {
-                patcher.MoveFilesFromSprites();
-                patcher.CreateReferenceToPreload();
-                patcher.CreateControlPointIcons();
-                patcher.CopyFilesFromTemp();
-                patcher.CreateExtrasFolder();
-                patcher.CopyReplayBrowser();
-                patcher.EditMainMenuOverrideForContracker();
-                patcher.FixConsoleErrors();
-                patcher.FixMatchHudFPSLoss();
+                Patcher.CopyFilesFromTemp();
+                Patcher.CopyMiscFiles();
+                Patcher.CopyHudFolder();
+                Patcher.MoveFilesFromSprites();
+                Patcher.EditMainMenuOverrideForContracker();
+                Patcher.CreateReferenceToPreload();
+                Patcher.CreateControlPointIcons();
+                Patcher.CopyReplayBrowser();
+                Patcher.CreateExtrasFolder();
+                Patcher.FixHudItemEffectMeterConsoleError();
+                Patcher.FixMissingVguiMaterialError();
+                Patcher.FixMatchHudFPSLoss();
             }
             catch (IOException exception)
             {
                 Console.WriteLine(exception.Message);
             }
 
-            Console.WriteLine("Task completed. It's safe to close console window now.");
+            // Keep console window open 
+            Console.WriteLine("\nTask completed. It's safe to close console window now.");
             Console.ReadKey();
         }
     }
