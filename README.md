@@ -1,24 +1,9 @@
 **This is simple C# script that fixes console errors and sv_pure 1 bugs for ToonHUD.**
 
-To run this script you need to download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps)
+1. To run this script you need to download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps).
 
-Used code:
+2. Unzip archive and put toonhud folder into HUDpatcher folder.
 
-https://social.msdn.microsoft.com/Forums/en-US/27a98772-2dc6-4197-9f75-6cc119d4a88a/
+3. Run Script.
 
-https://docs.microsoft.com/en-us/dotnet/api/system.console.title?view=net-6.0
-
-https://stackoverflow.com/questions/30603375/
-
-https://stackoverflow.com/questions/10752487/inserting-a-line-at-a-specific-place-in-a-txt-using-net
-
-https://stackoverflow.com/questions/39603934/find-application-files-directory-after-publish-by-clickonce
-
-
-Used HUD materials:
-
-https://steamcommunity.com/groups/toonhud/discussions/0/3374780959387179230/
-
-https://github.com/CriticalFlaw/TF2HUD.Fixes
-
-https://toonhud.com/
+4. Move toonhud folder back to custom folder.
