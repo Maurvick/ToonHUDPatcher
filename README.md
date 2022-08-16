@@ -24,4 +24,4 @@ Fixed match hud FPS loss.
 
 **How to debug**
 
-Place HUD files and toonhud folders to "HUDpatcher\bin\Debug\net6.0" and run visual studio.
+Place Resources and toonhud folders to "HUDpatcher\bin\Debug\net6.0" and run visual studio.

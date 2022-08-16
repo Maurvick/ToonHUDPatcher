@@ -10,10 +10,11 @@
             try
             {
                 Patcher.CopyFilesFromTemp();
+                Patcher.MoveFilesFromSprites();
                 Patcher.CopyMiscFiles();
                 Patcher.CopyHudFolder();
-                Patcher.MoveFilesFromSprites();
                 Patcher.EditMainMenuOverrideForContracker();
+                Patcher.CopyFilesFromHudFolder();
                 Patcher.CreateReferenceToPreload();
                 Patcher.CreateControlPointIcons();
                 Patcher.CopyReplayBrowser();
