@@ -1,4 +1,4 @@
-**This is simple C# script that fixes console errors and sv_pure 1 bugs for ToonHUD**
+**This is simple C# script that fixes console errors and sv_pure 1 bugs for custom hud for Team Fortress 2**
 
 1. To run this script you need to download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps).
 
