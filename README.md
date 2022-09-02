@@ -2,7 +2,7 @@
 
 1. To run this script you need to download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps).
 
-2. Unzip archive and put toonhud folder into HUDpatcher folder.
+2. Unzip [archive](https://github.com/Maurvick/ToonHUDPatcher/releases/download/1.0.0.2/HUDpatcher.zip) and put toonhud folder into HUDpatcher folder.
 
 3. Run Script.
 
