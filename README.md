@@ -8,7 +8,7 @@
 
 4. Move toonhud folder back to custom folder.
 
-<a href="https://ibb.co/j8gZ2Gf"><img src="https://i.ibb.co/j8gZ2Gf/Screenshot-2022-09-29-205638.png" alt="Screenshot-2022-09-29-205638" border="0"></a>
+[screenshot](https://ibb.co/j8gZ2Gf)
 
 **Changes**
 
