@@ -1,4 +1,4 @@
-**This is simple C# script that fixes console errors and sv_pure 1 bugs for custom hud for Team Fortress 2**
+**This is a simple C# script that fixes console errors and sv_pure 1 bugs for ToonHUD for Team Fortress 2.**
 
 1. To run this script you need to download [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0/runtime) (for console apps).
 
@@ -8,21 +8,21 @@
 
 4. Move toonhud folder back to custom folder.
 
-[screenshot](https://ibb.co/j8gZ2Gf)
+[Screenshot](https://ibb.co/j8gZ2Gf)
 
 **Changes**
 
-Custom control point icons works on Valve servers.
+1. Custom control point icons works on Valve servers.
 
-Custom overheal cross works on Valve servers.
+2. Custom overheal cross works on Valve servers.
 
-Contracker icon doesn't change to stock icon.
+3. Contracker icon doesn't change to stock icon.
 
-Changed replay browser to match toonhud theme.
+4. Changed replay browser to match toonhud theme.
 
-Fixed console errors.
+5. Fixed console errors.
 
-Fixed match hud FPS loss.
+6. Fixed match hud FPS loss.
 
 **How to debug**
 
