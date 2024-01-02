@@ -2,9 +2,36 @@
 
 namespace HUDpatcher
 {
-    internal class Patcher
+    internal class Program
     {
-        public static void CopyFilesFromTemp()
+        static void Main()
+        {
+            if (!Directory.Exists("toonhud"))
+            {
+                Console.WriteLine("Folder 'toonhud' not found.");
+                return;
+            }
+
+            CopyFilesFromTemp();
+            MoveFilesFromSprites();
+            CopyMiscFiles();
+            CopyHudFolder();
+            EditMainMenuOverrideForContracker();
+            CopyFilesFromHudFolder();
+            CreateReferenceToPreload();
+            CreateControlPointIcons();
+            CopyReplayBrowser();
+            CreateExtrasFolder();
+            FixHudItemEffectMeterConsoleError();
+            FixMissingVguiMaterialError();
+            FixMatchHudFPSLoss();
+
+            Console.WriteLine("\nTask completed." +
+                " It's safe to close console window now.");
+            Console.ReadKey();
+        }
+
+        static void CopyFilesFromTemp()
         {
             string sourcePath = @"Resources\toonhud\materials\temp";
             string targetPath = @"toonhud\materials\temp";
@@ -24,6 +51,7 @@ namespace HUDpatcher
                     string destFile = Path.Combine(targetPath, fileName);
                     File.Copy(s, destFile, true);
                 }
+
                 Console.WriteLine("Copied files from temp.");
             }
             else
@@ -32,7 +60,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void CopyMiscFiles()
+        static void CopyMiscFiles()
         {
             string sourcePath = @"Resources\toonhud\materials\misc";
             string targetPath = @"toonhud\materials\temp";
@@ -60,7 +88,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void CopyHudFolder()
+        static void CopyHudFolder()
         {
             string sourcePath = @"Resources\toonhud\materials\hud";
             string targetPath = @"toonhud\materials\hud";
@@ -80,6 +108,7 @@ namespace HUDpatcher
                     string destFile = Path.Combine(targetPath, fileName);
                     File.Copy(s, destFile, true);
                 }
+
                 Console.WriteLine("Copied hud folder.");
             }
             else
@@ -88,7 +117,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void MoveFilesFromSprites()
+        static void MoveFilesFromSprites()
         {
             string sourcePath = @"toonhud\materials\sprites\obj_icons";
             string targetPath = @"toonhud\materials\temp";
@@ -105,7 +134,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void EditMainMenuOverrideForContracker()
+        static void EditMainMenuOverrideForContracker()
         {
             StringBuilder newFile = new();
 
@@ -117,7 +146,7 @@ namespace HUDpatcher
                 {
                     newFile.Append(line + "\r\n");
                 }
-                else 
+                else
                 {
                     if (line.Contains("button_quests_pda"))
                     {
@@ -136,7 +165,7 @@ namespace HUDpatcher
             Console.WriteLine("Fixed contracker icon bug.");
         }
 
-        static public void CopyFilesFromHudFolder()
+        static void CopyFilesFromHudFolder()
         {
             string sourcePath = @"toonhud\materials\hud";
             string targetPath = @"toonhud\materials\temp";
@@ -161,7 +190,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void CreateReferenceToPreload()
+        static void CreateReferenceToPreload()
         {
             string sourcePath = @"toonhud\resource\ui\mainmenuoverride.res";
             var file = File.ReadAllLines(sourcePath).ToList();
@@ -181,7 +210,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void CreateControlPointIcons()
+        static void CreateControlPointIcons()
         {
             string sourcePath = @"Resources\ToonHUD\materials\sprites\obj_icons";
             string targetPath = @"toonhud\materials\sprites\obj_icons";
@@ -198,6 +227,7 @@ namespace HUDpatcher
                     string destFile = Path.Combine(targetPath, fileName);
                     File.Copy(s, destFile, true);
                 }
+
                 Console.WriteLine("Created control point icons.");
             }
             else
@@ -206,7 +236,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void CopyReplayBrowser()
+        static void CopyReplayBrowser()
         {
             string sourcePath = @"Resources\ToonHUD\resource\ui\replaybrowser";
             string targetPath = @"toonhud\resource\ui\replaybrowser";
@@ -236,7 +266,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void CreateExtrasFolder()
+        static void CreateExtrasFolder()
         {
             string sourcePath = @"Resources\ToonHUD\resource\extras\";
             string targetPath = @"toonhud\resource\extras\";
@@ -261,21 +291,28 @@ namespace HUDpatcher
             }
         }
 
-        public static void FixHudItemEffectMeterConsoleError()
+        static void FixHudItemEffectMeterConsoleError()
         {
             string fileName = "huditemeffectmeter_action.res";
             string sourcePath = @"Resources\ToonHUD\resource\ui";
             string targetPath = @"toonhud\resource\ui";
 
-            string sourceFile = Path.Combine(sourcePath, fileName);
-            string destFile = Path.Combine(targetPath, fileName);
+            try
+            {
+                string sourceFile = Path.Combine(sourcePath, fileName);
+                string destFile = Path.Combine(targetPath, fileName);
 
-            File.Copy(sourceFile, destFile, true);
+                File.Copy(sourceFile, destFile, true);
 
-            Console.WriteLine("Fixed HudItemEffectMeter_Action console error.");
+                Console.WriteLine("Fixed HudItemEffectMeter_Action console error.");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Source path does not exist!");
+            } 
         }
 
-        public static void FixMissingVguiMaterialError()
+        static void FixMissingVguiMaterialError()
         {
             // 1
             string sourcePath = @"Resources\ToonHUD\materials\vgui\maps";
@@ -300,7 +337,7 @@ namespace HUDpatcher
             }
         }
 
-        public static void FixMatchHudFPSLoss()
+        static void FixMatchHudFPSLoss()
         {
             StringBuilder newFile = new();
 
@@ -312,11 +349,11 @@ namespace HUDpatcher
                 // find specified line in file and replace 
                 if (lines.Contains("\"enabled\"\t\t\t\"1\""))
                 {
-                   string temp = lines.Replace("\"enabled\"\t\t\t\"1\"", "\"enabled\"\t\t\t\"0\"");
+                    string temp = lines.Replace("\"enabled\"\t\t\t\"1\"", "\"enabled\"\t\t\t\"0\"");
 
-                   newFile.Append(temp + "\r\n");
+                    newFile.Append(temp + "\r\n");
 
-                   continue;
+                    continue;
                 }
                 else
                 {
