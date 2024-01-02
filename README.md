@@ -23,9 +23,6 @@
 
 6. Fixed match hud FPS loss.
 
-# How to debug
-
-<!-- Place Resources and toonhud folders to "HUDpatcher\bin\Debug\net6.0" and run visual studio. -->
-
 # Preview
+![зображення](https://github.com/Maurvick/ToonHudPatcher/assets/82706197/333a5e8f-0861-40ef-910b-080eb0c15392)
 
